@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jleber</groupId>
+    <artifactId>nfe-xsd-pojo</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0</version>
+
+    <name>NFE XSD TO POJO</name>
+    <scm>
+        <url>https://github.com/jleber/${project.artifactId}</url>
+        <connection>scm:git:git://github.com/jleber/api.git</connection>
+        <developerConnection>scm:git:git@github.com:jleber/nfe-xsd-pojo.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <build>
+    <pluginManagement>
+        <plugins>
+            <!--
+                If we e.g. execute on JDK 1.7, we should compile for Java 7 to get
+                the same (or higher) JAXB API version as used during the xjc execution.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </pluginManagement>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jaxb2-maven-plugin</artifactId>
+            <version>2.3.1</version>
+            <executions>
+                <execution>
+                    <id>xjc</id>
+                    <goals>
+                        <goal>xjc</goal>
+                    </goals>
+                    <configuration>
+                        <xjbSources>
+                            <xjbSource>src/main/resources/global.xjb</xjbSource>
+                        </xjbSources>
+
+                        <sources>
+                            <source>src/main/resources/schemas/nfe_v4.00.xsd</source>
+                        </sources>
+
+                        <packageName>com.jleber.nfeschema</packageName>
+                        <outputDirectory>src/main/java</outputDirectory>
+                        <generateEpisode>false</generateEpisode>
+                        <clearOutputDir>false</clearOutputDir>
+                    </configuration>
+                </execution>
+            </executions>
+
+        </plugin>
+
+    </plugins>
+    </build>
+
+</project>
+
